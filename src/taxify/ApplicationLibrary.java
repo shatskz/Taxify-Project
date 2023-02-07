@@ -32,7 +32,7 @@ public class ApplicationLibrary {
     /**
      * This method generates a random number up to (but not including) the parameter max
      *
-     * @param  max  integer that is 1 above the maximum random number that will be returned
+     * @param  a  integer that is 1 above the maximum random number that will be returned
      * @return      random integer
      */
     public static int distance(ILocation a, ILocation b) {
