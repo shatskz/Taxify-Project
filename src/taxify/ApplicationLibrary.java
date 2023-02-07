@@ -30,19 +30,33 @@ public class ApplicationLibrary {
     }
 
     /**
-     * This method generates a random number up to (but not including) the parameter max
+     * This method calculates the Manhattan distance between two locations
      *
-     * @param  a  integer that is 1 above the maximum random number that will be returned
-     * @return      random integer
+     * @param  a  ILocation object whose distance we will calculate from b
+     * @param  b  ILocation object whose distance we will calculate from a
+     * @return      integer that represents the distance between the points
      */
     public static int distance(ILocation a, ILocation b) {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
     }
 
+    /**
+     * This overloaded method returns a random location within the bounds of the grid
+     *
+     * @return      random ILocation object
+     */
     public static ILocation randomLocation() {
         return new Location(rand(width), rand(height));
     }
 
+    /**
+     * This overloaded method returns a random location that is greater than or equal to 3
+     * units away the location parameter
+     *
+     * @param location  ILocation object that will be used to calculate a random point far
+     *                  enough away (greater than or equal to 3 units away)
+     * @return      random ILocation object
+     */
     public static ILocation randomLocation(ILocation location) {
         ILocation destination;
 
