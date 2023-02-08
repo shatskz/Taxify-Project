@@ -1,3 +1,8 @@
+// Zack Shatsky and Benjy Kurcz
+// Taxify Project
+// Last Modified: 2/8/23
+// Description: This file provides the interface for the Location class
+
 package taxify;
 
 public interface ILocation {

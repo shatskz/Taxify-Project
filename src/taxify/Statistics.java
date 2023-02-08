@@ -1,3 +1,9 @@
+// Zack Shatsky and Benjy Kurcz
+// Taxify Project
+// Last Modified: 2/8/23
+// Description: This class keeps track of the statistics for each vehicle (eg, the number of
+// services provided, reviews received, rating, distance traveled, and billing generated)
+
 package taxify;
 
 public class Statistics implements IStatistics {
@@ -21,7 +27,7 @@ public class Statistics implements IStatistics {
     /**
      * This method returns the services attribute.
      *
-     * @return      integer representing the number services provided
+     * @return      integer representing the number of services provided by this vehicle
      */
     @Override
     public int getServices() {
@@ -31,7 +37,7 @@ public class Statistics implements IStatistics {
     /**
      * This method returns the reviews attribute.
      *
-     * @return      integer representing the number reviews provided
+     * @return      integer representing the number reviews provided for this vehicle
      */
     @Override
     public int getReviews() {
