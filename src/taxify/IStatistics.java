@@ -14,7 +14,7 @@ public interface IStatistics {
     public int getBilling();
     public void updateServices();
     public void updateReviews();
-    public void updateStars(double stars);
+    public void updateStars(int stars);
     public void updateDistance(int distance);
     public void updateBilling(int billing);
 }

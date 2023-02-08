@@ -91,32 +91,36 @@ public class Statistics implements IStatistics {
     }
 
     /**
-     * This method updates the stars attribute by setting it equal to the method's argument
+     * This method updates the stars attribute by adding the method's argument to the total
+     * number of stars given and dividing it by the number of reviews to get the average
+     * number of stars
      *
-     * @param  stars double that will be the new value of the stars field
+     * @param  stars int that will be the new value of the stars field
      */
     @Override
-    public void updateStars(double stars) {
-        this.stars = stars;
+    public void updateStars(int stars) {
+        this.stars = ((this.stars * this.reviews) + stars) / (this.reviews + 1);
     }
 
     /**
-     * This method updates the distance attribute by setting it equal to the method's argument
+     * This method updates the distance attribute by adding an amount equal to the
+     * method's argument
      *
      * @param  distance  integer that will be the new value of the distance field
      */
     @Override
     public void updateDistance(int distance) {
-        this.distance = distance;
+        this.distance += distance;
     }
 
     /**
-     * This method updates the billing attribute by setting it equal to the method's argument
+     * This method updates the billing attribute by adding an amount equal to the method's
+     * argument
      *
      * @param  billing  integer that will be the new value of the billing field
      */
     @Override
     public void updateBilling(int billing) {
-        this.billing = billing;
+        this.billing += billing;
     }
 }
