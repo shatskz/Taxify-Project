@@ -55,7 +55,7 @@ public class Service implements IService {
     /**
      * This method returns the stars attribute.
      *
-     * @return      integer representing the number of stars the service contains
+     * @return      integer representing the number of stars the service contains, 0 to 5
      */
     @Override
     public int getStars() {
@@ -65,10 +65,13 @@ public class Service implements IService {
     /**
      * This method sets the stars attribute.
      *
-     * @param  stars  value to set the stars attribute to
+     * @param  stars  value to set the stars attribute to, 0 to 5
      */
     @Override
     public void setStars(int stars) {
+        if(stars > 5 || stars < 0) {
+            println("ERROR: ratings must be between 0 and 5 stars");
+        }
         this.stars = stars;
     }
 

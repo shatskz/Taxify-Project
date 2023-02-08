@@ -67,7 +67,7 @@ public class Statistics implements IStatistics {
     /**
      * This method returns the billing attribute.
      *
-     * @return      integer representing the total billing
+     * @return      integer representing the total billing in euros
      */
     @Override
     public int getBilling() {
@@ -93,10 +93,10 @@ public class Statistics implements IStatistics {
     /**
      * This method updates the stars attribute by setting it equal to the method's argument
      *
-     * @param  stars  integer that will be the new value of the stars field
+     * @param  stars double that will be the new value of the stars field
      */
     @Override
-    public void updateStars(int stars) {
+    public void updateStars(double stars) {
         this.stars = stars;
     }
 
