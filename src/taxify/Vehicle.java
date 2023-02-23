@@ -160,8 +160,8 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
-     *
-     * @return
+     * Whether the vehicle's status is free or not
+     * @return true if the vehicle's status is free, false otherwise
      */
     @Override
     public boolean isFree() {
