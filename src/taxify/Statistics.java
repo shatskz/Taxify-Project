@@ -1,6 +1,6 @@
 // Zack Shatsky and Benjy Kurcz
 // Taxify Project
-// Last Modified: 2/8/23
+// Last Modified: 2/23/23
 // Description: This class keeps track of the statistics for each vehicle (eg, the number of
 // services provided, reviews received, rating, distance traveled, and billing generated)
 
@@ -14,7 +14,12 @@ public class Statistics implements IStatistics {
     private int billing;
 
     /**
-     * Class constructor
+     * Default class constructor
+     */
+    public Statistics() {}
+
+    /**
+     * Defined class constructor
      */
     public Statistics(int services, int reviews, double stars, int distance, int billing) {
         this.services = services;

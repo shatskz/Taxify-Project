@@ -1,6 +1,6 @@
 // Zack Shatsky and Benjy Kurcz
 // Taxify Project
-// Last Modified: 2/8/23
+// Last Modified: 2/23/23
 // Description: This class represents an individual user using the Taxify application and
 // keeps track of his or her first and last name, id, and whether the user is currently being
 // serviced
@@ -21,7 +21,6 @@ public class User implements IUser {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.company = company;
         this.service = false;
     }
 
@@ -74,6 +73,17 @@ public class User implements IUser {
     public void setService(boolean service) {
         this.service = service;
     }
+
+    /**
+     * This method sets the company attribute
+     *
+     * @param  company  ITaxiCompany object to set the attribute to
+     */
+    @Override
+    public void setCompany(ITaxiCompany company) {
+        this.company = company;
+    }
+
 
     /**
      * This method calls on ITaxiCompany's requestService() method to indicate that this user

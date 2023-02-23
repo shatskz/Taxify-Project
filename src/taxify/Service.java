@@ -1,6 +1,6 @@
 // Zack Shatsky and Benjy Kurcz
 // Taxify Project
-// Last Modified: 2/8/23
+// Last Modified: 2/23/23
 // Description: This class keeps track of the data for each service (eg, the user, pickup and
 // drop off locations, and the stars given)
 
@@ -63,14 +63,15 @@ public class Service implements IService {
     }
 
     /**
-     * This method sets the stars attribute.
+     * This method sets the stars attribute. It ensures the attribute is set to a valid integer
      *
      * @param  stars  value to set the stars attribute to, 0 to 5
      */
     @Override
     public void setStars(int stars) {
         if(stars > 5 || stars < 0) {
-            println("ERROR: ratings must be between 0 and 5 stars");
+            System.out.println("ERROR: ratings must be between 0 and 5 stars");
+            System.exit(0);
         }
         this.stars = stars;
     }
