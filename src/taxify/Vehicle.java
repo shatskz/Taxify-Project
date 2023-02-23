@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Vehicle implements IVehicle {
+
     private int id;
     private ITaxiCompany company;
     private IService service;
@@ -20,6 +21,11 @@ public abstract class Vehicle implements IVehicle {
     private IStatistics statistics;
     private List<ILocation> route;
 
+    /**
+     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
+     * @param id the id of the vehicle
+     * @param location the location of the vehicle
+     */
     public Vehicle(int id, ILocation location) {
         this.id = id;
         this.service = null;
@@ -30,36 +36,64 @@ public abstract class Vehicle implements IVehicle {
         this.route = setDrivingRouteToDestination(this.location, this.destination);
     }
 
+    /**
+     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
+     * @return the id of the vehicle
+     */
     @Override
     public int getId() {
         return this.id;
     }
 
+    /**
+     * This method returns the location of the vehicle
+     * @return the location of the vehicle
+     */
     @Override
     public ILocation getLocation() {
         return this.location;
     }
 
+    /**
+     * This method returns the destination of the vehicle
+     * @return the destination of the vehicle
+     */
     @Override
     public ILocation getDestination() {
         return this.destination;
     }
 
+    /**
+     * This method returns the service that the vehicle is currently servicing
+     * @return service that the vehicle is currently servicing with the data on the ride
+     */
     @Override
     public IService getService() {
         return this.service;
     }
 
+    /**
+     * This method returns the statistics of the vehicle
+     * @return the statistics of the vehicle
+     */
     @Override
     public IStatistics getStatistics() {
         return this.statistics;
     }
 
+    /**
+     * This method sets the company that owns the vehicle
+     * @param company the company that owns the vehicle
+     */
     @Override
     public void setCompany(ITaxiCompany company) {
         this.company = company;
     }
 
+    /**
+     * This method picks a service, set destination to the service pickup location, and status to "pickup"
+     * @param service the service that the vehicle is picking up
+     */
     @Override
     public void pickService(IService service) {
         // pick a service, set destination to the service pickup location, and status to "pickup"
@@ -70,11 +104,20 @@ public abstract class Vehicle implements IVehicle {
         this.status = VehicleStatus.PICKUP;
     }
 
+    /**
+     * This method sets destination to the service drop-off location, update the driving route, set status to "service"
+     */
     @Override
     public void startService() {
-        // set destination to the service drop-off location, update the driving route, set status to "service"
+        this.destination = this.service.getDropoffLocation();
+        this.route = setDrivingRouteToDestination(this.location, this.destination);
+        this.status = VehicleStatus.SERVICE;
     }
 
+    /**
+     * This method concludes the ride
+     * updates vehicle statistics, sets service to null, and status to "free"
+     */
     @Override
     public void endService() {
         // update vehicle statistics
@@ -98,22 +141,36 @@ public abstract class Vehicle implements IVehicle {
         this.status = VehicleStatus.FREE;
     }
 
+    /**
+     * This method notifies the company that the vehicle is at the pickup location and starts the service
+     */
     @Override
     public void notifyArrivalAtPickupLocation() {
-        // notify the company that the vehicle is at the pickup location and start the service
+        this.company.arrivedAtPickupLocation(this);
+        this.startService();
     }
 
+    /**
+     * This method notifies the company that the vehicle is at the drop-off location and ends the service
+     */
     @Override
     public void notifyArrivalAtDropoffLocation() {
         this.company.arrivedAtDropoffLocation(this);
         this.endService();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean isFree() {
         return this.status == VehicleStatus.FREE;
     }
 
+    /**
+     * This method moves the vehicle from one location to another
+     */
     @Override
     public void move() {
         // get the next location from the driving route
@@ -147,12 +204,20 @@ public abstract class Vehicle implements IVehicle {
         }
     }
 
+    /**
+     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
+     * @return the cost of the service
+     */
     @Override
     public int calculateCost() {
         return Math.abs(this.destination.getX() - this.location.getX()) -
                 Math.abs(this.destination.getY() - this.location.getY());
     }
 
+    /**
+     * This method returns the driving route of the vehicle
+     * @return the driving route of the vehicle
+     */
     @Override
     public String showDrivingRoute() {
         String s = "";
@@ -163,6 +228,10 @@ public abstract class Vehicle implements IVehicle {
         return s;
     }
 
+    /**
+     * This method returns the string representation of the vehicle
+     * @return the string representation of the vehicle
+     */
     @Override
     public String toString() {
         return this.id + " at " + this.location + " driving to " + this.destination +
