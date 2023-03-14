@@ -27,11 +27,13 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
     @Override
     public String getName() {
         // returns the name of the company
+        return this.name;
     }
 
     @Override
     public int getTotalServices() {
         // returns the total services
+        return this.totalServices;
     }
 
     @Override
@@ -117,9 +119,23 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
 
     private int findFreeVehicle() {
         // finds a free vehicle and returns the index of the vehicle in the list, otherwise it returns -1
+
+        for(int i = 0; i < this.vehicles.size(); i++) {
+            if(this.vehicles.get(i).isFree())
+                return i;
+        }
+
+        return -1; // If no free vehicles are found
     }
 
     private int indexOfUserId(int id) {
         // finds the index of a user with the input id in the list, otherwise it returns -1
+
+        for(int i = 0; i < this.users.size(); i++) {
+            if(this.users.get(i).getId() == id)
+                return i;
+        }
+
+        return -1; // If no users with the input id are found
     }
 }

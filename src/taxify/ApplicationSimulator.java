@@ -27,6 +27,12 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
     @Override
     public void showStatistics() {
         // shows the statistics of the company
+
+        System.out.println("\n" + this.company.getName() + " statistics \n");
+
+        for (int i=0; i<this.vehicles.size(); i++) {
+            System.out.println(this.vehicles.get(i).getStatistics()); // IS THIS RIGHT???
+        }
     }
 
     @Override
@@ -41,6 +47,13 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
     @Override
     public void requestService() {
         // finds a "free" user and requests a service to the Taxi Company
+
+        for (int i=0; i<this.users.size(); i++) {
+            if(!this.users.get(i).getService()) {
+                this.company.requestService(i);
+                return; // Exits method if we find a "free" user
+            }
+        }
     }
 
     @Override
