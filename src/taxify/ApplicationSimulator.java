@@ -7,12 +7,22 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
     private List<IUser> users;
     private List<IVehicle> vehicles;
 
+    /**
+     * This constructor creates a new ApplicationSimulator object.
+     *
+     * @param  company  ITaxiCompany object representing the company
+     * @param  users    List of IUser objects representing the users
+     * @param  vehicles List of IVehicle objects representing the vehicles
+     */
     public ApplicationSimulator(ITaxiCompany company, List<IUser> users, List<IVehicle> vehicles) {
         this.company = company;
         this.users = users;
         this.vehicles = vehicles;
     }
 
+    /**
+     * Shows status of vehicles (whether they're free, picking up a user, or servicing a user)
+     */
     @Override
     public void show() {
         // shows the status of the vehicles
@@ -24,6 +34,9 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
         }
     }
 
+    /**
+     * Shows statistics of vehicles (how many users they've serviced, how many kilometers they've driven, etc.)
+     */
     @Override
     public void showStatistics() {
         // shows the statistics of the company
@@ -37,6 +50,9 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
         }
     }
 
+    /**
+     * Moves vehicles to their next location
+     */
     @Override
     public void update() {
         // moves the vehicles to their next location
@@ -46,6 +62,9 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
         }
     }
 
+    /**
+     * Finds a "free" user and requests a service to the Taxi Company
+     */
     @Override
     public void requestService() {
         // finds a "free" user and requests a service to the Taxi Company
@@ -58,6 +77,10 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
         }
     }
 
+    /**
+     * Returns the total number of services
+     * @return int totalServices - the total number of services
+     */
     @Override
     public int getTotalServices() {
         return this.company.getTotalServices();

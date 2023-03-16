@@ -84,7 +84,7 @@ public class TestProgram {
         application.show(); // Show the status of the application
         application.update(); // Update the state of the application
         application.requestService(); // Simulate a request of service (randomly, to avoid request a service each iteration)
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 100; i++) {
             if(i%5 == 0){ // only show the status of the application each 5 iterations so the output isn't too long
                 application.show();
             }
