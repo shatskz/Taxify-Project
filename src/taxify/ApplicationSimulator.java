@@ -86,6 +86,9 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
         return this.company.getTotalServices();
     }
 
+    /**
+     * Updates observer by printing the parameter message to the console
+     */
     @Override
     public void updateObserver(String message) {
         System.out.println(message);

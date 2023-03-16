@@ -42,7 +42,8 @@ public class TestProgram {
         users.add(user14);
         users.add(user15);
 
-        //  2. Declare a list of vehihowcles. Instantiate at least 10 vehicles (Taxis and Shuttles) and place them at random locations of the city map
+        //  2. Declare a list of vehicles. Instantiate at least 10 vehicles (Taxis and Shuttles)
+        //  and place them at random locations of the city map
 
         List<IVehicle> vehicles = new ArrayList<IVehicle>();
         Shuttle shuttle1 = new Shuttle(1, ApplicationLibrary.randomLocation());
@@ -66,7 +67,8 @@ public class TestProgram {
         vehicles.add(taxi5);
         vehicles.add(shuttle5);
 
-        // 3. Instantiate the taxi company and the application simulator. Add the application simulator as an observer of the taxy company
+        // 3. Instantiate the taxi company and the application simulator. Add the application
+        // simulator as an observer of the taxi company
 
         TaxiCompany taxify = new TaxiCompany("Taxify", users, vehicles);
         ApplicationSimulator application = new ApplicationSimulator(taxify, users, vehicles);
