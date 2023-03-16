@@ -1,7 +1,7 @@
 // Zack Shatsky and Benjy Kurcz
 // Taxify Project
 // Last Modified: 2/23/23
-// Description: This file provides the interface for the TaxiCompany class
+// Description: This file provides the interface for the TaxiCompany.java class
 
 package taxify;
 

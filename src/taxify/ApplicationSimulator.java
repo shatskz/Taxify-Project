@@ -19,8 +19,8 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
 
         System.out.println("\n" + this.company.getName() + " status \n");
 
-        for (int i=0; i<this.vehicles.size(); i++) {
-            System.out.println(this.vehicles.get(i).toString());
+        for (IVehicle vehicle : this.vehicles) {
+            System.out.println(vehicle.toString());
         }
     }
 
@@ -30,8 +30,10 @@ public class ApplicationSimulator implements IApplicationSimulator, IObserver {
 
         System.out.println("\n" + this.company.getName() + " statistics \n");
 
-        for (int i=0; i<this.vehicles.size(); i++) {
-            System.out.println(this.vehicles.get(i).getStatistics()); // IS THIS RIGHT???
+        for (IVehicle vehicle : this.vehicles) {
+            System.out.printf("%-7s %d    %d services     %d km.   %d eur.    %d reviews %.2f stars\n", 
+            vehicle.getClass().getSimpleName(), vehicle.getId(), vehicle.getStatistics().getServices(), 
+            vehicle.getStatistics().getDistance(), vehicle.getStatistics().getBilling(), vehicle.getStatistics().getReviews(), vehicle.getStatistics().getStars());
         }
     }
 

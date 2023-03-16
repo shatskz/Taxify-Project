@@ -9,6 +9,12 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
     private int totalServices;
     private IObserver observer;
 
+    /**
+     * The constructor of the class TaxiCompany
+     * @param name the name of the company
+     * @param users the list of users
+     * @param vehicles the list of vehicles
+     */
     public TaxiCompany(String name, List<IUser> users, List<IVehicle> vehicles) {
         this.name = name;
         this.users = users;
@@ -24,18 +30,31 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
             this.vehicles.get(i).setCompany(this);
     }
 
+    /**
+     * The method getName returns the name of the company
+     * @return the name of the company
+     */
     @Override
     public String getName() {
         // returns the name of the company
         return this.name;
     }
 
+    /**
+     * Gets the number of total services/rides
+     * @return the number of total services/rides
+     */
     @Override
     public int getTotalServices() {
         // returns the total services
         return this.totalServices;
     }
 
+    /**
+     * The method requestService requests a service to the company
+     * @param user the user that requests the service
+     * @return true if the service is assigned to a vehicle, false otherwise
+     */
     @Override
     public boolean requestService(int user) {
         int userIndex = indexOfUserId(user);
@@ -80,6 +99,11 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         return false;
     }
 
+    /**
+     * The method arrivedAtPickupLocation is called when a vehicle arrives at the pickup location
+     * The observer is notified
+     * @param vehicle the vehicle that arrives at the pickup location
+     */
     @Override
     public void arrivedAtPickupLocation(IVehicle vehicle) {
         // a vehicle arrives at the pickup location
@@ -87,6 +111,11 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         notifyObserver(String.format("%-8s",vehicle.getClass().getSimpleName()) + vehicle.getId() + " loads user " + vehicle.getService().getUser().getId());
     }
 
+    /**
+     * The method arrivedAtDropoffLocation is called when a vehicle arrives at the drop-off location
+     * The company asks the user for a rating, the status is updated, and observer is notified
+     * @param vehicle
+     */
     @Override
     public void arrivedAtDropoffLocation(IVehicle vehicle) {
         // a vehicle arrives at the drop-off location
@@ -107,16 +136,28 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         notifyObserver(String.format("%-8s",vehicle.getClass().getSimpleName()) + vehicle.getId() + " drops off user " + user);
     }
 
+    /**
+     * The method addObserver adds an observer to the list of observers
+     * @param observer the observer to be added
+     */
     @Override
     public void addObserver(IObserver observer) {
         this.observer = observer;
     }
 
+    /**
+     * The method removeObserver removes an observer from the list of observers
+     * @param message the message to be sent to the observer
+     */
     @Override
     public void notifyObserver(String message) {
         this.observer.updateObserver(message);
     }
 
+    /**
+     * The method findFreeVehicle finds a free vehicle
+     * @return the index of the vehicle in the list, otherwise it returns -1
+     */
     private int findFreeVehicle() {
         // finds a free vehicle and returns the index of the vehicle in the list, otherwise it returns -1
 
@@ -128,6 +169,11 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         return -1; // If no free vehicles are found
     }
 
+    /**
+     * The method indexOfUserId finds the index of a user with the input id in the list
+     * @param id the id of the user
+     * @return the index of the user in the list, otherwise it returns -1
+     */
     private int indexOfUserId(int id) {
         // finds the index of a user with the input id in the list, otherwise it returns -1
 

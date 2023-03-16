@@ -37,7 +37,7 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
-     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
+     * This method returns the id of the vehicle
      * @return the id of the vehicle
      */
     @Override
@@ -210,8 +210,7 @@ public abstract class Vehicle implements IVehicle {
      */
     @Override
     public int calculateCost() {
-        return Math.abs(this.destination.getX() - this.location.getX()) -
-                Math.abs(this.destination.getY() - this.location.getY());
+        return this.service.calculateDistance();
     }
 
     /**

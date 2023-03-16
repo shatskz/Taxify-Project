@@ -7,33 +7,96 @@ public class TestProgram {
 
     public static void main(String[] args) {
 
+        // 1. Declare a list of users. Instantiate at least 15 users
+
+        List<IUser> users = new ArrayList<IUser>();
+        User user1 = new User(0, "John", "Doe");
+        User user2 = new User(1, "Jane", "Doe");
+        User user3 = new User(2, "John", "Smith");
+        User user4 = new User(3, "Jane", "Smith");
+        User user5 = new User(4, "Benjy", "Kurcz");
+        User user6 = new User(5, "Zack", "Shatsky");
+        User user7 = new User(6, "Morgan", "Wallen");
+        User user8 = new User(7, "Ben", "Dover");
+        User user9 = new User(8, "David", "Krappenschitz");
+        User user10 = new User(9, "Phil", "McKraken");
+        User user11 = new User(10, "Hugh", "Janus");
+        User user12 = new User(11, "Eileen", "Dover");
+        User user13 = new User(12, "Babe", "Ruth");
+        User user14 = new User(13, "Jack", "Goff");
+        User user15 = new User(14, "Ronald", "McDonald");
+        
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
+        users.add(user6);
+        users.add(user7);
+        users.add(user8);
+        users.add(user9);
+        users.add(user10);
+        users.add(user11);
+        users.add(user12);
+        users.add(user13);
+        users.add(user14);
+        users.add(user15);
+
+        //  2. Declare a list of vehihowcles. Instantiate at least 10 vehicles (Taxis and Shuttles) and place them at random locations of the city map
+
+        List<IVehicle> vehicles = new ArrayList<IVehicle>();
+        Shuttle shuttle1 = new Shuttle(1, ApplicationLibrary.randomLocation());
+        Shuttle shuttle2 = new Shuttle(2, ApplicationLibrary.randomLocation());
+        Shuttle shuttle3 = new Shuttle(3, ApplicationLibrary.randomLocation());
+        Shuttle shuttle4 = new Shuttle(4, ApplicationLibrary.randomLocation());
+        Shuttle shuttle5 = new Shuttle(5, ApplicationLibrary.randomLocation()); 
+        Taxi taxi1 = new Taxi(1, ApplicationLibrary.randomLocation());
+        Taxi taxi2 = new Taxi(2, ApplicationLibrary.randomLocation());
+        Taxi taxi3 = new Taxi(3, ApplicationLibrary.randomLocation());
+        Taxi taxi4 = new Taxi(4, ApplicationLibrary.randomLocation());
+        Taxi taxi5 = new Taxi(5, ApplicationLibrary.randomLocation());
+        vehicles.add(taxi1);
+        vehicles.add(shuttle1);
+        vehicles.add(taxi2);
+        vehicles.add(shuttle2);
+        vehicles.add(taxi3);
+        vehicles.add(shuttle3);
+        vehicles.add(taxi4);
+        vehicles.add(shuttle4);
+        vehicles.add(taxi5);
+        vehicles.add(shuttle5);
+
+        // 3. Instantiate the taxi company and the application simulator. Add the application simulator as an observer of the taxy company
+
+        TaxiCompany taxify = new TaxiCompany("Taxify", users, vehicles);
+        ApplicationSimulator application = new ApplicationSimulator(taxify, users, vehicles);
+
+        taxify.addObserver(application);
+
         /*
-
-         1. Declare a list of users. Instantiate at least 15 users
-
-            List<IUser> users = new ArrayList<IUser>()
-
-         2. Declare a list of vehicles. Instantiate at least 10 vehicles (Taxis and Shuttles) and place them at random locations of the city map
-
-            List<IVehicle> vehicles = new ArrayList<IVehicle>();
-
-         3. Instantiate the taxi company and the application simulator. Ad the application simulator as an observer of the taxy company
-
-            TaxiCompany taxify = new TaxiCompany("Taxify", users, vehicles);
-            ApplicationSimulator application = new ApplicationSimulator(taxify, users, vehicles);
-
-            taxify.addObserver(application);
-
-         4. Start the simulation
+            4. Start the simulation
 
             a. Show the status of the application
             b. Simulate at least 5 requests of service
             c. Run the simulation while there are vehicles in a service
+         */
 
-               Show the status of the application
-               Update the state of the application
-               Simulate a request of service (randomly, to avoid request a service each iteration)
+        application.show(); // Show the status of the application
+        application.update(); // Update the state of the application
+        application.requestService(); // Simulate a request of service (randomly, to avoid request a service each iteration)
+        for(int i = 0; i < 50; i++) {
+            if(i%5 == 0){ // only show the status of the application each 5 iterations so the output isn't too long
+                application.show();
+            }
+            application.show();
+            int random = ApplicationLibrary.rand(5); 
+            if(random == 1){ // requests a service 1 in 5 iterations
+                application.requestService();
+            }
+            application.update(); // Update the state of the application
+        }
 
+        /*
             d. Finally, show the statistics of the simulation as shown below
 
             Taxify statistics
@@ -50,6 +113,8 @@ public class TestProgram {
             Shuttle 10  8 services  60 km.  87 eur.  4 reviews 3.5  stars
 
          */
+
+        application.showStatistics();
 
     }
 
