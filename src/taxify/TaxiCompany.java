@@ -161,6 +161,15 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
     private int findFreeVehicle() {
         // finds a free vehicle and returns the index of the vehicle in the list, otherwise it returns -1
 
+        // Tries to find a random vehicle that is free
+        for(int i = 0; i < this.vehicles.size(); i++) {
+            int index = ApplicationLibrary.rand(this.vehicles.size());
+            if(this.vehicles.get(index).isFree())
+                return index;
+        }
+
+        // Otherwise, we will iterate through the list to ensure there are no free vehicles
+        // before indicating that none are free
         for(int i = 0; i < this.vehicles.size(); i++) {
             if(this.vehicles.get(i).isFree())
                 return i;
