@@ -83,6 +83,7 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
 
             // assign the new service to the vehicle
 
+            // TODO create 2 different pick service methods in Vehicle
             this.vehicles.get(vehicleIndex).pickService(service);
 
             notifyObserver("User " + this.users.get(userIndex).getId() + " requests a service from " + service.toString() + ", the ride is assigned to " +
@@ -164,14 +165,14 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         // Tries to find a random vehicle that is free
         for(int i = 0; i < this.vehicles.size(); i++) {
             int index = ApplicationLibrary.rand(this.vehicles.size());
-            if(this.vehicles.get(index).isFree())
+            if(this.vehicles.get(index).isFreeOrInService())
                 return index;
         }
 
         // Otherwise, we will iterate through the list to ensure there are no free vehicles
         // before indicating that none are free
         for(int i = 0; i < this.vehicles.size(); i++) {
-            if(this.vehicles.get(i).isFree())
+            if(this.vehicles.get(i).isFreeOrInService())
                 return i;
         }
 

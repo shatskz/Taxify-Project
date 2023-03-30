@@ -18,7 +18,7 @@ public interface IVehicle {
     public void endService();
     public void notifyArrivalAtPickupLocation();
     public void notifyArrivalAtDropoffLocation();
-    public boolean isFree();
+    public boolean isFreeOrInService();
     public void move();
     public int calculateCost();
     public String showDrivingRoute();

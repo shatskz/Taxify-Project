@@ -14,7 +14,7 @@ public abstract class Vehicle implements IVehicle {
 
     private int id;
     private ITaxiCompany company;
-    private IService service; // Make array list of services so that
+    private List<IService> service; // List of services so that we can do
     private VehicleStatus status;
     private ILocation location;
     private ILocation destination;
@@ -28,7 +28,7 @@ public abstract class Vehicle implements IVehicle {
      */
     public Vehicle(int id, ILocation location) {
         this.id = id;
-        this.service = null;
+        this.service = new ArrayList<>();
         this.status = VehicleStatus.FREE;
         this.location = location;
         this.destination = ApplicationLibrary.randomLocation(this.location);
@@ -68,7 +68,7 @@ public abstract class Vehicle implements IVehicle {
      * @return service that the vehicle is currently servicing with the data on the ride
      */
     @Override
-    public IService getService() {
+    public List<IService> getService() {
         return this.service;
     }
 
@@ -98,7 +98,7 @@ public abstract class Vehicle implements IVehicle {
     public void pickService(IService service) {
         // pick a service, set destination to the service pickup location, and status to "pickup"
 
-        this.service = service;
+        this.service.add(service);
         this.destination = service.getPickupLocation();
         this.route = setDrivingRouteToDestination(this.location, this.destination);
         this.status = VehicleStatus.PICKUP;
@@ -160,12 +160,12 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
-     * Whether the vehicle's status is free or not
+     * Whether the vehicle's status is free or in service or not
      * @return true if the vehicle's status is free, false otherwise
      */
     @Override
-    public boolean isFree() {
-        return this.status == VehicleStatus.FREE;
+    public boolean isFreeOrInService() {
+        return this.status == VehicleStatus.FREE || this.status == VehicleStatus.SERVICE;
     }
 
     /**
