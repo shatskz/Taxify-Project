@@ -22,7 +22,7 @@ public class Taxi extends Vehicle {
      * @return the cost of the service
      */
     @Override
-    public int calculateCost() {
+    public double calculateCost() {
         return super.calculateCost() * 2;
     }
 

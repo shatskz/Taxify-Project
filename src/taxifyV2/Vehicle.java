@@ -20,6 +20,7 @@ public abstract class Vehicle implements IVehicle {
     private ILocation destination;
     private IStatistics statistics;
     private List<ILocation> route;
+    private IService currentService; // The service whose destination we are currently driving to
     private int CAR_CAPACITY = 4; // Maximum number of services in each vehicle
 
     /**
@@ -65,12 +66,21 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
+     * This method returns the list of services that the vehicle is currently servicing
+     * @return list of services that the vehicle is currently servicing with the data on the ride
+     */
+    @Override
+    public List<IService> getServices() {
+        return this.service;
+    }
+
+    /**
      * This method returns the service that the vehicle is currently servicing
      * @return service that the vehicle is currently servicing with the data on the ride
      */
     @Override
-    public List<IService> getService() {
-        return this.service;
+    public IService getService() {
+        return this.currentService;
     }
 
     /**
@@ -103,6 +113,7 @@ public abstract class Vehicle implements IVehicle {
             this.service.add(service);
             this.destination = service.getPickupLocation();
             this.route = setDrivingRouteToDestination(this.location, this.destination);
+            this.currentService = service;
             this.status = VehicleStatus.PICKUP;
             return true;
         }
@@ -114,6 +125,7 @@ public abstract class Vehicle implements IVehicle {
                 this.service.add(service);
                 this.destination = service.getPickupLocation();
                 this.route = setDrivingRouteToDestination(this.location, this.destination);
+                this.currentService = service;
                 this.status = VehicleStatus.PICKUP;
                 return true;
             }
@@ -134,48 +146,64 @@ public abstract class Vehicle implements IVehicle {
     @Override
     public void startService() {
         this.destination = this.service.get(0).getDropoffLocation();
+        IService serviceStarted;
 
         for(IService s : this.service) {
             // Change drop off location to nearest one in the services list
             if(ApplicationLibrary.distance(this.location, s.getDropoffLocation()) <
-                    ApplicationLibrary.distance(this.location, this.destination))
+                    ApplicationLibrary.distance(this.location, this.destination)) {
                 this.destination = s.getDropoffLocation();
+                this.currentService = s;
+            }
         }
         this.route = setDrivingRouteToDestination(this.location, this.destination);
 
-        if(this.service.size() > 1)
+        // a vehicle will be in service with one
+        if (this.service.size() > 1) {
             this.status = VehicleStatus.RIDESHARE;
-        else
+        } else {
             this.status = VehicleStatus.SERVICE;
+        }
     }
 
     /**
      * This method concludes the ride
-     * updates vehicle statistics, sets service to null, and status to "free"
+     * updates vehicle statistics, sets service to null, and status to "free" only when all
+     * people have been dropped off
      */
     @Override
-    // TODO fix end service so that remove service from list and look for next destination to
-    //  go to in service list
     public void endService() {
         // update vehicle statistics
 
+        // The cost of the ride is only based on the origin and destination of the user that
+        // requests it. This is different from the distance traveled by the vehicle in total
+        // (see move())
         this.statistics.updateBilling(this.calculateCost());
-        this.statistics.updateDistance(this.service.calculateDistance());
         this.statistics.updateServices();
 
         // if the service is rated by the user, update statistics
 
-        if (this.service.getStars() != 0) {
-            this.statistics.updateStars(this.service.getStars());
+        if (this.currentService.getStars() != 0) {
+            this.statistics.updateStars(this.currentService.getStars());
             this.statistics.updateReviews();
         }
 
-        // set service to null, and status to "free"
+        // this service ends, so remove it from service list
+        this.service.remove(currentService);
 
-        this.service = null;
-        this.destination = ApplicationLibrary.randomLocation(this.location);
-        this.route = setDrivingRouteToDestination(this.location, this.destination);
-        this.status = VehicleStatus.FREE;
+        // set service to null, and status to "free" if the vehicle is empty
+        if(this.service.size() == 0) {
+            this.destination = ApplicationLibrary.randomLocation(this.location);
+            this.route = setDrivingRouteToDestination(this.location, this.destination);
+            this.status = VehicleStatus.FREE;
+        }
+        else {
+            // Choose the next service to drop off if the vehicle has people in it
+            startService();
+            // Make sure that once a vehicle has become a ride share, it remains a ride share
+            // vehicle until there are no more people in it again
+            this.status = VehicleStatus.RIDESHARE;
+        }
     }
 
     /**
@@ -197,8 +225,9 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
-     * Whether the vehicle's status is free or in service or in rideshare or not
-     * @return true if the vehicle's status is free, false otherwise
+     * Whether the vehicle's status is free or in service or in ride share or not
+     * @return true if the vehicle's status is free or in service or in ride share, false
+     * otherwise
      */
     @Override
     public boolean isFreeOrInService() {
@@ -216,8 +245,17 @@ public abstract class Vehicle implements IVehicle {
         this.location = this.route.get(0);
         this.route.remove(0);
 
+        // We must differentiate between the service's distance and the vehicle's distance.
+        // Here we are calculating the vehicle's distance which is incremented by 1 for each
+        // unit the vehicle moves while the vehicle is in ride share or service status or when
+        // the vehicle is picking someone up while there is another service in the vehicle
+        if(this.status == VehicleStatus.RIDESHARE || this.status == VehicleStatus.SERVICE ||
+                (this.status == VehicleStatus.PICKUP && this.service.size() > 1)){
+            this.statistics.updateDistance(1);
+        }
+
         if (this.route.isEmpty()) {
-            if (this.service == null) {
+            if (this.service == null || this.service.size() == 0) {
                 // the vehicle continues its random route
 
                 this.destination = ApplicationLibrary.randomLocation(this.location);
@@ -226,8 +264,8 @@ public abstract class Vehicle implements IVehicle {
             else {
                 // checks if the vehicle has arrived to a pickup or drop off location
 
-                ILocation origin = this.service.getPickupLocation();
-                ILocation destination = this.service.getDropoffLocation();
+                ILocation origin = this.currentService.getPickupLocation();
+                ILocation destination = this.currentService.getDropoffLocation();
 
                 if (this.location.getX() == origin.getX() && this.location.getY() == origin.getY()) {
 
@@ -236,19 +274,24 @@ public abstract class Vehicle implements IVehicle {
                 } else if (this.location.getX() == destination.getX() && this.location.getY() == destination.getY()) {
 
                     notifyArrivalAtDropoffLocation();
-
                 }
             }
         }
     }
 
     /**
-     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
-     * @return the cost of the service
+     * This method calculates the cost of the current service based on the distance between the
+     * pickup and drop-off locations
+     * @return the cost of the current service
      */
     @Override
-    public int calculateCost() {
-        return this.service.calculateDistance();
+    public double calculateCost() {
+        if(this.status == VehicleStatus.SERVICE)
+            return this.currentService.calculateDistance();
+        else {
+            // 20% discount if vehicle is a ride share
+            return this.currentService.calculateDistance() * 0.8;
+        }
     }
 
     /**
@@ -271,9 +314,22 @@ public abstract class Vehicle implements IVehicle {
      */
     @Override
     public String toString() {
-        return this.id + " at " + this.location + " driving to " + this.destination +
-                ((this.status == VehicleStatus.FREE) ? " is free with path " + showDrivingRoute(): ((this.status == VehicleStatus.PICKUP) ? " to pickup user " +
-                        this.service.getUser().getId() : " in service "));
+        String statusString;
+        switch (this.status) {
+            case FREE:
+                statusString = " is free with path " + showDrivingRoute();
+                break;
+            case PICKUP:
+                statusString = " to pickup user " + this.currentService.getUser().getId();
+                break;
+            case RIDESHARE:
+                statusString = " in ride share ";
+                break;
+            default:
+                statusString = " in service";
+                break;
+        }
+        return this.id + " at " + this.location + " driving to " + this.destination + statusString;
     }
 
     private List<ILocation> setDrivingRouteToDestination(ILocation location, ILocation destination) {

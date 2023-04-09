@@ -122,10 +122,10 @@ public class Statistics implements IStatistics {
      * This method updates the billing attribute by adding an amount equal to the method's
      * argument
      *
-     * @param  billing  integer that will be the new value of the billing field
+     * @param  billing  double that will be the new value of the billing field
      */
     @Override
-    public void updateBilling(int billing) {
+    public void updateBilling(double billing) {
         this.billing += billing;
     }
 

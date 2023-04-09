@@ -11,7 +11,8 @@ public interface IVehicle {
     public int getId();
     public ILocation getLocation();
     public ILocation getDestination();
-    public List<IService> getService();
+    public List<IService> getServices();
+    public IService getService();
     public IStatistics getStatistics();
     public void setCompany(ITaxiCompany company);
     public boolean pickService(IService service);
@@ -21,7 +22,7 @@ public interface IVehicle {
     public void notifyArrivalAtDropoffLocation();
     public boolean isFreeOrInService();
     public void move();
-    public int calculateCost();
+    public double calculateCost();
     public String showDrivingRoute();
     public String toString();
 

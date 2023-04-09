@@ -16,5 +16,5 @@ public interface IStatistics {
     public void updateReviews();
     public void updateStars(int stars);
     public void updateDistance(int distance);
-    public void updateBilling(int billing);
+    public void updateBilling(double billing);
 }
