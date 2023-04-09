@@ -315,21 +315,36 @@ public abstract class Vehicle implements IVehicle {
      */
     @Override
     public String toString() {
-        String statusString;
+        StringBuilder statusString = new StringBuilder();
+
         switch (this.status) {
             case FREE:
-                statusString = " is free with path " + showDrivingRoute();
+                statusString.append(" is free with path ").append(showDrivingRoute());
                 break;
             case PICKUP:
-                statusString = " to pickup user " + this.currentService.getUser().getId();
+                statusString.append(" to pickup user ").append(this.currentService.getUser().getId());
+
+                // Even if a vehicle is going to pick someone up, we want to print that the
+                // vehicle is in ride share
+                if(this.service.size() > 1)
+                    statusString.append(" in ride share ");
+
                 break;
-            case RIDESHARE:
-                statusString = " in ride share ";
+            case SERVICE:
+                statusString.append(" in service ");
                 break;
             default:
-                statusString = " in service";
+                statusString.append(" in ride share dropping off user ").append(
+                        this.currentService.getUser().getId()).append(". ");
+
+                for(IService s : this.service)
+                    statusString.append("User ").append(s.getUser().getId()).append(" ");
+
+                statusString.append("is/are in the vehicle");
                 break;
         }
+
+
         return this.id + " at " + this.location + " driving to " + this.destination + statusString;
     }
 
