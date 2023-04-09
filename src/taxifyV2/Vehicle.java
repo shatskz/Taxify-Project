@@ -14,12 +14,13 @@ public abstract class Vehicle implements IVehicle {
 
     private int id;
     private ITaxiCompany company;
-    private List<IService> service; // List of services so that we can do
+    private List<IService> service; // List of services in vehicle
     private VehicleStatus status;
     private ILocation location;
     private ILocation destination;
     private IStatistics statistics;
     private List<ILocation> route;
+    private int CAR_CAPACITY = 4; // Maximum number of services in each vehicle
 
     /**
      * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
@@ -93,15 +94,38 @@ public abstract class Vehicle implements IVehicle {
     /**
      * This method picks a service, set destination to the service pickup location, and status to "pickup"
      * @param service the service that the vehicle is picking up
+     * @return boolean true if ride is accepted by vehicle and false if
      */
     @Override
-    public void pickService(IService service) {
+    public boolean pickService(IService service) {
         // pick a service, set destination to the service pickup location, and status to "pickup"
-
-        this.service.add(service);
-        this.destination = service.getPickupLocation();
-        this.route = setDrivingRouteToDestination(this.location, this.destination);
-        this.status = VehicleStatus.PICKUP;
+        if(this.service.size() == 0) {
+            this.service.add(service);
+            this.destination = service.getPickupLocation();
+            this.route = setDrivingRouteToDestination(this.location, this.destination);
+            this.status = VehicleStatus.PICKUP;
+            return true;
+        }
+        else if (this.service.size() < CAR_CAPACITY) {
+            // If there is more than one service in the car, we will randomly decide if it
+            // becomes a ride share vehicle
+            if(ApplicationLibrary.rand() % 2 == 0) {
+                // Ride share option is accepted
+                this.service.add(service);
+                this.destination = service.getPickupLocation();
+                this.route = setDrivingRouteToDestination(this.location, this.destination);
+                this.status = VehicleStatus.PICKUP;
+                return true;
+            }
+            else {
+                // Ride share option is rejected by either service
+                return false;
+            }
+        }
+        else {
+            // If the capacity of the vehicle is reached, we will not accept the ride
+            return false;
+        }
     }
 
     /**
@@ -109,9 +133,20 @@ public abstract class Vehicle implements IVehicle {
      */
     @Override
     public void startService() {
-        this.destination = this.service.getDropoffLocation();
+        this.destination = this.service.get(0).getDropoffLocation();
+
+        for(IService s : this.service) {
+            // Change drop off location to nearest one in the services list
+            if(ApplicationLibrary.distance(this.location, s.getDropoffLocation()) <
+                    ApplicationLibrary.distance(this.location, this.destination))
+                this.destination = s.getDropoffLocation();
+        }
         this.route = setDrivingRouteToDestination(this.location, this.destination);
-        this.status = VehicleStatus.SERVICE;
+
+        if(this.service.size() > 1)
+            this.status = VehicleStatus.RIDESHARE;
+        else
+            this.status = VehicleStatus.SERVICE;
     }
 
     /**
@@ -119,6 +154,8 @@ public abstract class Vehicle implements IVehicle {
      * updates vehicle statistics, sets service to null, and status to "free"
      */
     @Override
+    // TODO fix end service so that remove service from list and look for next destination to
+    //  go to in service list
     public void endService() {
         // update vehicle statistics
 
@@ -160,12 +197,13 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
-     * Whether the vehicle's status is free or in service or not
+     * Whether the vehicle's status is free or in service or in rideshare or not
      * @return true if the vehicle's status is free, false otherwise
      */
     @Override
     public boolean isFreeOrInService() {
-        return this.status == VehicleStatus.FREE || this.status == VehicleStatus.SERVICE;
+        return this.status == VehicleStatus.FREE || this.status == VehicleStatus.SERVICE ||
+                this.status == VehicleStatus.RIDESHARE;
     }
 
     /**

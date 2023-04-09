@@ -84,7 +84,14 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
             // assign the new service to the vehicle
 
             // TODO create 2 different pick service methods in Vehicle
-            this.vehicles.get(vehicleIndex).pickService(service);
+            boolean serviceAccepted = false;
+
+            // continue trying to find vehicles to accept service until one accepts
+            // a service is rejected if vehicle's capacity is reached or a ride share option
+            // is rejected
+            do {
+                serviceAccepted = this.vehicles.get(vehicleIndex).pickService(service);
+            } while (!serviceAccepted);
 
             notifyObserver("User " + this.users.get(userIndex).getId() + " requests a service from " + service.toString() + ", the ride is assigned to " +
                            this.vehicles.get(vehicleIndex).getClass().getSimpleName() + " " + this.vehicles.get(vehicleIndex).getId() + " at location " +

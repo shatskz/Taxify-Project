@@ -7,6 +7,6 @@ package taxifyV2;
 
 public enum VehicleStatus {
 
-    FREE, PICKUP, SERVICE, RIDESHARE // Added a rideshare option to vehicle status
+    FREE, PICKUP, SERVICE, RIDESHARE // Added a ride share option to vehicle status
 
 }
