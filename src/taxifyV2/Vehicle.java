@@ -146,10 +146,11 @@ public abstract class Vehicle implements IVehicle {
     @Override
     public void startService() {
         this.destination = this.service.get(0).getDropoffLocation();
-        IService serviceStarted;
+        this.currentService = this.service.get(0);
 
         for(IService s : this.service) {
-            // Change drop off location to nearest one in the services list
+            // Change drop off location to nearest one in the services list or to the only
+            // service still in the vehicle
             if(ApplicationLibrary.distance(this.location, s.getDropoffLocation()) <
                     ApplicationLibrary.distance(this.location, this.destination)) {
                 this.destination = s.getDropoffLocation();

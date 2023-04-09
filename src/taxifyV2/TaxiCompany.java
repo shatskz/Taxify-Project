@@ -83,8 +83,9 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
 
             // assign the new service to the vehicle
 
-            // TODO create 2 different pick service methods in Vehicle
-            boolean serviceAccepted = false;
+            // It is not guaranteed that the current rider(s) and the potential rider accept the
+            // ride share service
+            boolean serviceAccepted;
 
             // continue trying to find vehicles to accept service until one accepts
             // a service is rejected if vehicle's capacity is reached or a ride share option
@@ -122,7 +123,7 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
     /**
      * The method arrivedAtDropoffLocation is called when a vehicle arrives at the drop-off location
      * The company asks the user for a rating, the status is updated, and observer is notified
-     * @param vehicle
+     * @param vehicle the vehicle who arrived at the dropoff location
      */
     @Override
     public void arrivedAtDropoffLocation(IVehicle vehicle) {
