@@ -344,7 +344,6 @@ public abstract class Vehicle implements IVehicle {
                 break;
         }
 
-
         return this.id + " at " + this.location + " driving to " + this.destination + statusString;
     }
 
