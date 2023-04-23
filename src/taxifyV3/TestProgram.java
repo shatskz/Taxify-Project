@@ -10,21 +10,21 @@ public class TestProgram {
         // 1. Declare a list of users. Instantiate at least 15 users
 
         List<IUser> users = new ArrayList<IUser>();
-        User user1 = new User(0, "John", "Doe");
-        User user2 = new User(1, "Jane", "Doe");
-        User user3 = new User(2, "John", "Smith");
-        User user4 = new User(3, "Jane", "Smith");
-        User user5 = new User(4, "Benjy", "Kurcz");
-        User user6 = new User(5, "Zack", "Shatsky");
-        User user7 = new User(6, "Morgan", "Wallen");
-        User user8 = new User(7, "Ben", "Dover");
-        User user9 = new User(8, "David", "Krappenschitz");
-        User user10 = new User(9, "Phil", "McKraken");
-        User user11 = new User(10, "Hugh", "Janus");
-        User user12 = new User(11, "Eileen", "Dover");
-        User user13 = new User(12, "Babe", "Ruth");
-        User user14 = new User(13, "Jack", "Goff");
-        User user15 = new User(14, "Ronald", "McDonald");
+        User user1 = new User(0, "John", "Doe", ApplicationLibrary.randomLocation());
+        User user2 = new User(1, "Jane", "Doe", ApplicationLibrary.randomLocation());
+        User user3 = new User(2, "John", "Smith", ApplicationLibrary.randomLocation());
+        User user4 = new User(3, "Jane", "Smith", ApplicationLibrary.randomLocation());
+        User user5 = new User(4, "Benjy", "Kurcz", ApplicationLibrary.randomLocation());
+        User user6 = new User(5, "Zack", "Shatsky", ApplicationLibrary.randomLocation());
+        User user7 = new User(6, "Morgan", "Wallen", ApplicationLibrary.randomLocation());
+        User user8 = new User(7, "Ben", "Dover", ApplicationLibrary.randomLocation());
+        User user9 = new User(8, "David", "Krappenschitz", ApplicationLibrary.randomLocation());
+        User user10 = new User(9, "Phil", "McKraken", ApplicationLibrary.randomLocation());
+        User user11 = new User(10, "Hugh", "Janus", ApplicationLibrary.randomLocation());
+        User user12 = new User(11, "Eileen", "Dover", ApplicationLibrary.randomLocation());
+        User user13 = new User(12, "Babe", "Ruth", ApplicationLibrary.randomLocation());
+        User user14 = new User(13, "Jack", "Goff", ApplicationLibrary.randomLocation());
+        User user15 = new User(14, "Ronald", "McDonald", ApplicationLibrary.randomLocation());
 
         users.add(user1);
         users.add(user2);
@@ -42,8 +42,8 @@ public class TestProgram {
         users.add(user14);
         users.add(user15);
 
-        //  2. Declare a list of vehicles. Instantiate at least 10 vehicles (Taxis and Shuttles)
-        //  and place them at random locations of the city map
+        //  2. Declare a list of vehicles. Instantiate at least 10 vehicles (Taxis, Shuttles,
+        //  Bikes, and Scooters) and place them at random locations of the city map
 
         List<IVehicle> vehicles = new ArrayList<IVehicle>();
         Shuttle shuttle1 = new Shuttle(1, ApplicationLibrary.randomLocation());
@@ -56,16 +56,26 @@ public class TestProgram {
         Taxi taxi3 = new Taxi(3, ApplicationLibrary.randomLocation());
         Taxi taxi4 = new Taxi(4, ApplicationLibrary.randomLocation());
         Taxi taxi5 = new Taxi(5, ApplicationLibrary.randomLocation());
+        Bike bike1 = new Bike(1, ApplicationLibrary.randomLocation());
+        Bike bike2 = new Bike(2, ApplicationLibrary.randomLocation());
+        Scooter scooter1 = new Scooter(1, ApplicationLibrary.randomLocation());
+        Scooter scooter2 = new Scooter(2, ApplicationLibrary.randomLocation());
+
         vehicles.add(taxi1);
         vehicles.add(shuttle1);
+        vehicles.add(bike1);
+        vehicles.add(scooter1);
         vehicles.add(taxi2);
         vehicles.add(shuttle2);
+        vehicles.add(bike2);
+        vehicles.add(scooter2);
         vehicles.add(taxi3);
         vehicles.add(shuttle3);
         vehicles.add(taxi4);
         vehicles.add(shuttle4);
         vehicles.add(taxi5);
         vehicles.add(shuttle5);
+
 
         // 3. Instantiate the taxi company and the application simulator. Add the application
         // simulator as an observer of the taxi company

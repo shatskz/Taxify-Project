@@ -9,17 +9,15 @@ public class Service implements IService {
     private IUser user;
     private ILocation pickup;
     private ILocation dropoff;
-    private ILocation userLocation;
     private int stars;
 
     /**
      * Class constructor
      */
-    public Service(IUser user, ILocation pickup, ILocation dropoff, ILocation userLocation) {
+    public Service(IUser user, ILocation pickup, ILocation dropoff) {
         this.user = user;
         this.pickup = pickup;
         this.dropoff = dropoff;
-        this.userLocation = userLocation;
         this.stars = 0;
     }
 
@@ -61,17 +59,6 @@ public class Service implements IService {
     @Override
     public int getStars() {
         return this.stars;
-    }
-
-    /**
-     * This method returns the user's location. This attribute is only helpful when using
-     * micromobility vehicles
-     *
-     * @return      integer representing the number of stars the service contains, 0 to 5
-     */
-    @Override
-    public ILocation getUserLocation() {
-        return this.userLocation;
     }
 
     /**

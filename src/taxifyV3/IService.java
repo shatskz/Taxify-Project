@@ -11,7 +11,6 @@ public interface IService {
     public ILocation getPickupLocation();
     public ILocation getDropoffLocation();
     public int getStars();
-    public ILocation getUserLocation();
     public void setStars(int stars);
     public int calculateDistance();
     public String toString();

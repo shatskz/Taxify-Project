@@ -115,9 +115,15 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
      */
     @Override
     public void arrivedAtPickupLocation(IVehicle vehicle) {
-        // a vehicle arrives at the pickup location
-
-        notifyObserver(String.format("%-8s",vehicle.getClass().getSimpleName()) + vehicle.getId() + " loads user " + vehicle.getService().getUser().getId());
+        // a vehicle arrives at the pickup location or the user arrives at pickup location
+        // (with micromobility vehicles)
+        if(vehicle.getClass().getSimpleName().equals("Bike") ||
+                vehicle.getClass().getSimpleName().equals("Scooter"))
+            notifyObserver(String.format("%-8s", vehicle.getService().getUser().getId() +
+                    " gets on " + vehicle.getClass().getSimpleName()) + vehicle.getId());
+        else
+            notifyObserver(String.format("%-8s",vehicle.getClass().getSimpleName()) +
+                    vehicle.getId() + " loads user " + vehicle.getService().getUser().getId());
     }
 
     /**
@@ -142,7 +148,13 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
 
         this.totalServices--;
 
-        notifyObserver(String.format("%-8s",vehicle.getClass().getSimpleName()) + vehicle.getId() + " drops off user " + user);
+        if(vehicle.getClass().getSimpleName().equals("Bike") ||
+                vehicle.getClass().getSimpleName().equals("Scooter"))
+            notifyObserver(String.format("%-8s", "user " + user + " gets off " +
+                    vehicle.getClass().getSimpleName()) + vehicle.getId());
+        else
+            notifyObserver(String.format("%-8s",vehicle.getClass().getSimpleName()) +
+                    vehicle.getId() + " drops off user " + user);
     }
 
     /**
@@ -173,14 +185,14 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         // Tries to find a random vehicle that is free
         for(int i = 0; i < this.vehicles.size(); i++) {
             int index = ApplicationLibrary.rand(this.vehicles.size());
-            if(this.vehicles.get(index).isFreeOrInService())
+            if(this.vehicles.get(index).isAvailable())
                 return index;
         }
 
         // Otherwise, we will iterate through the list to ensure there are no free vehicles
         // before indicating that none are free
         for(int i = 0; i < this.vehicles.size(); i++) {
-            if(this.vehicles.get(i).isFreeOrInService())
+            if(this.vehicles.get(i).isAvailable())
                 return i;
         }
 

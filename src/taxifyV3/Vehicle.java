@@ -231,7 +231,7 @@ public abstract class Vehicle implements IVehicle {
      * otherwise
      */
     @Override
-    public boolean isFreeOrInService() {
+    public boolean isAvailable() {
         return this.status == VehicleStatus.FREE || this.status == VehicleStatus.SERVICE ||
                 this.status == VehicleStatus.RIDESHARE;
     }

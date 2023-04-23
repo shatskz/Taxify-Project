@@ -46,6 +46,23 @@ public interface IUser {
     public void setCompany(ITaxiCompany company);
 
     /**
+     * This method updates the user's location as it is walking from its location to the
+     * pickup location of the micromobility vehicle or while in the ride. This attribute is only
+     * helpful when using micromobility vehicles.
+     *
+     * @param      newLocation representing the where the user has moved
+     */
+    public void updateUserLocation(ILocation newLocation);
+
+    /**
+     * This method returns the user's location. This attribute is only helpful when using
+     * micromobility vehicles
+     *
+     * @return      ILocation representing the current location of the user
+     */
+    public ILocation getUserLocation();
+
+    /**
      * This method requests a service from the company.
      */
     public void requestService();

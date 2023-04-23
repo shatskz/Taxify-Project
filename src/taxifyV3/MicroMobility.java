@@ -5,7 +5,7 @@ import taxify.VehicleStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MicroMobility implements IVehicle {
+public abstract class MicroMobility implements IVehicle {
 
     private int id;
     private ITaxiCompany company;
@@ -98,8 +98,7 @@ public class MicroMobility implements IVehicle {
 
 
     /**
-     * This method picks a service, set destination to the service pickup location, and status
-     * to "booked"
+     * This method picks a service, has the user walk to the vehicle, and sets status to "booked"
      * @param service the service that the user is booking
      * @return boolean to represent if service is accepted (always true for micromobility)
      */
@@ -110,50 +109,168 @@ public class MicroMobility implements IVehicle {
 
         this.service = service;
         this.destination = service.getPickupLocation();
-        this.route = setDrivingRouteToDestination(this.service.getUserLocation(), this.location);
+        // Since a micromobility can't move itself, the user has to walk to it and this time
+        // delay will be given by setting the driving route from the user's current location
+        // to the current location of the vehicle
+        this.route = setDrivingRouteToDestination(this.service.getUser().getUserLocation(),
+                this.location);
         this.status = MobilityStatus.BOOKED;
 
+        // If the micromobility vehicle is free, the vehicle can't reject the service
         return true;
     }
 
+    /**
+     * This method sets destination to the service drop-off location, update the driving route,
+     * set status to "service"
+     */
     @Override
     public void startService() {
-
+        this.destination = this.service.getDropoffLocation();
+        this.route = setDrivingRouteToDestination(this.location, this.destination);
+        this.status = MobilityStatus.SERVICE;
     }
 
+    /**
+     * This method concludes the ride updates vehicle statistics; sets service, destination,
+     * and route to null; and status to "free"
+     */
     @Override
     public void endService() {
+        // update vehicle statistics
 
+        this.statistics.updateBilling(this.calculateCost());
+        this.statistics.updateDistance(this.service.calculateDistance());
+        this.statistics.updateServices();
+
+        // if the service is rated by the user, update statistics
+
+        if (this.service.getStars() != 0) {
+            this.statistics.updateStars(this.service.getStars());
+            this.statistics.updateReviews();
+        }
+
+        // set service to null, and status to "free"
+
+        this.service = null;
+        // Micromobility vehicle does not have the ability to "wander" around without a person
+        // riding it, so destination and route are set to null
+        this.destination = null;
+        this.route = null;
+        this.status = MobilityStatus.FREE;
     }
 
+    /**
+     * This method notifies the company that the user is at the pickup location and starts the
+     * service
+     */
     @Override
     public void notifyArrivalAtPickupLocation() {
-
+        this.company.arrivedAtPickupLocation(this);
+        this.startService();
     }
 
+    /**
+     * This method notifies the company that the user rode the vehicle to the drop-off location
+     * and ends the service
+     */
     @Override
     public void notifyArrivalAtDropoffLocation() {
-
+        this.company.arrivedAtDropoffLocation(this);
+        this.endService();
     }
 
+    /**
+     * Whether the vehicle's status is free or not
+     * @return true if the vehicle's status is free, false otherwise
+     */
     @Override
-    public boolean isFreeOrInService() {
-        return false;
+    public boolean isAvailable() {
+        return this.status == MobilityStatus.FREE;
     }
 
     @Override
     public void move() {
+        if(this.service != null) {
+            // get the next location from the driving route only if there's
 
+            // Only update vehicle's location when ride is in service (vehicle doesn't move when
+            // booked)
+            if (this.status == MobilityStatus.SERVICE)
+                this.location = this.route.get(0);
+
+            // Always update user's location (either when walking to pickup location or when ride
+            // is in service)
+            this.service.getUser().updateUserLocation(this.route.get(0));
+
+
+            this.route.remove(0);
+
+            if (this.route.isEmpty()) {
+                    // checks if the user has arrived at pickup or drop off location
+
+                    ILocation origin = this.service.getPickupLocation();
+                    ILocation destination = this.service.getDropoffLocation();
+
+                    // Notify arrival at pickup location if user arrives at pickup location of
+                    // service (wherever the micromobility vehicle is located)
+                    if (this.service.getUser().getUserLocation().getX() == origin.getX() &&
+                            this.service.getUser().getUserLocation().getY() == origin.getY()) {
+
+                        notifyArrivalAtPickupLocation();
+
+                    } else if (this.location.getX() == destination.getX() && this.location.getY()
+                            == destination.getY()) {
+
+                        notifyArrivalAtDropoffLocation();
+
+                    }
+            }
+        }
     }
 
+    /**
+     * This method calculates the cost of a service based on the distance between the pickup
+     * and drop-off locations. We will multiply the cost by 0.75 and 0.5 for scooters and
+     * bikes, respectively, in the subclasses
+     * @return the cost of the service
+     */
     @Override
-    public double calculateCost() {
-        return 0;
-    }
+    public double calculateCost() { return this.service.calculateDistance(); }
 
+    /**
+     * This method returns the driving route of the vehicle
+     * @return the driving route of the vehicle
+     */
     @Override
     public String showDrivingRoute() {
-        return null;
+        String s = "";
+
+        for (ILocation l : this.route)
+            s = s + l.toString() + " ";
+
+        return s;
+    }
+
+    /**
+     * This method returns the string representation of the vehicle
+     * @return the string representation of the vehicle
+     */
+    @Override
+    public String toString() {
+        StringBuilder statusString = new StringBuilder();
+
+        switch (this.status) {
+            case FREE:
+                statusString.append(" is free ");
+                return this.id + " at " + this.location + statusString;
+            case BOOKED:
+                statusString.append(" has been booked by ").append(this.service.getUser().getId());
+                return this.id + " at " + this.location + statusString;
+            default:
+                statusString.append(" in service with user ").append(this.service.getUser().getId());
+                return this.id + " at " + this.location + " driving to " + this.destination + statusString;
+        }
     }
 
     /**
