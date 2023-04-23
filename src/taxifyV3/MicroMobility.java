@@ -265,7 +265,9 @@ public abstract class MicroMobility implements IVehicle {
                 statusString.append(" is free ");
                 return this.id + " at " + this.location + statusString;
             case BOOKED:
-                statusString.append(" has been booked by ").append(this.service.getUser().getId());
+                statusString.append(" has been booked by user ")
+                        .append(this.service.getUser().getId()).append(" who is at ")
+                        .append(this.service.getUser().getUserLocation());
                 return this.id + " at " + this.location + statusString;
             default:
                 statusString.append(" in service with user ").append(this.service.getUser().getId());

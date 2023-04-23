@@ -7,7 +7,7 @@ public class TestProgram {
 
     public static void main(String[] args) {
 
-        // 1. Declare a list of users. Instantiate at least 15 user
+        // 1. Declare a list of users. Instantiate at least 15 users
 
         List<IUser> users = new ArrayList<IUser>();
         User user1 = new User(0, "John", "Doe", ApplicationLibrary.randomLocation());
