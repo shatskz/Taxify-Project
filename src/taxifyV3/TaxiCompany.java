@@ -66,12 +66,16 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         if (vehicleIndex != -1) {
             ILocation origin, destination;
 
-            do {
-
-                origin = ApplicationLibrary.randomLocation();
+                if(this.vehicles.get(vehicleIndex).getClass().getSimpleName().equals("Bike") ||
+                        this.vehicles.get(vehicleIndex).getClass().getSimpleName().equals("Scooter")) {
+                    do {
+                        // if the vehicle is a bike or a scooter, the user will pick up the vehicle at that location
+                            origin = this.vehicles.get(vehicleIndex).getLocation(); 
+                    } while(ApplicationLibrary.distance(origin, this.users.get(userIndex).getUserLocation()) < 1);
+                } else { // if it's a taxi or shuttle, the user will pick up the vehicle at a random location
+                    origin = ApplicationLibrary.randomLocation(this.vehicles.get(vehicleIndex).getLocation());
+                }
                 destination = ApplicationLibrary.randomLocation(origin);
-
-            } while (ApplicationLibrary.distance(origin, this.vehicles.get(vehicleIndex).getLocation()) < 3);
 
             // update the user status
 
