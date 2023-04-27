@@ -61,6 +61,7 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
     public boolean requestService(int user) {
         int userIndex = indexOfUserId(user);
         int vehicleIndex = findFreeVehicle();
+        System.out.println("userIndex: " + userIndex + "User Location:" + users.get(userIndex).getUserLocation() + "vehicleIndex: " + vehicleIndex);
 
         // if there is a free vehicle, assign a random pickup and drop-off location to the new service
         // the distance between the pickup and the drop-off location should be at least 3 blocks
@@ -70,10 +71,10 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
 
                 if(this.vehicles.get(vehicleIndex).getClass().getSimpleName().equals("Bike") ||
                         this.vehicles.get(vehicleIndex).getClass().getSimpleName().equals("Scooter")) {
-                    do {
+ //                   do {
                         // if the vehicle is a bike or a scooter, the user will pick up the vehicle at that location
                             origin = this.vehicles.get(vehicleIndex).getLocation(); 
-                    } while(ApplicationLibrary.distance(origin, this.users.get(userIndex).getUserLocation()) < 1);
+ //                   } while(ApplicationLibrary.distance(origin, this.users.get(userIndex).getUserLocation()) < 1);
                 } else { // if it's a taxi or shuttle, the user will pick up the vehicle at a random location
                     origin = ApplicationLibrary.randomLocation(this.vehicles.get(vehicleIndex).getLocation());
                 }
@@ -150,10 +151,6 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
 
         this.users.get(userIndex).rateService(service);
         this.users.get(userIndex).setService(false);
-
-        // update the counter of services
-
-        this.totalServices--;
 
         if(vehicle.getClass().getSimpleName().equals("Bike") ||
                 vehicle.getClass().getSimpleName().equals("Scooter"))

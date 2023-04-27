@@ -47,10 +47,7 @@ public class TestProgram {
          */
 
         application.show(); // Show the status of the application
-        application.update(); // Update the state of the application
-        application.requestService(); // Simulate a request of service (randomly, to avoid request a service each iteration)
-        for(int i = 0; i < 50; i++) {
-            application.show();
+        for(int i = 0; i < 30; i++) {
             int random = ApplicationLibrary.rand(3);
             if(random == 1){ // requests a service 1 in 3 iterations
                 application.requestService();
@@ -58,19 +55,12 @@ public class TestProgram {
             application.update(); // Update the state of the application
             // pause for 2 seconds
             try {
-                Thread.sleep(2000);
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             gui.updateVehicles(vehicles); // Update the state of the GUI
-            // pause the simulation for 5 seconds so that the user can look at the new state
-            /*
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            */
+            application.show(); // show the status of the application
         }
 
         /*
@@ -135,17 +125,12 @@ public class TestProgram {
     public static List<IVehicle> InitializeVehicles(){
 
         ArrayList<IVehicle> vehicles = new ArrayList<IVehicle>();
-
         Shuttle shuttle1 = new Shuttle(1, ApplicationLibrary.randomLocation());
         Shuttle shuttle2 = new Shuttle(2, ApplicationLibrary.randomLocation());
         Shuttle shuttle3 = new Shuttle(3, ApplicationLibrary.randomLocation());
-        Shuttle shuttle4 = new Shuttle(4, ApplicationLibrary.randomLocation());
-        Shuttle shuttle5 = new Shuttle(5, ApplicationLibrary.randomLocation());
         Taxi taxi1 = new Taxi(1, ApplicationLibrary.randomLocation());
         Taxi taxi2 = new Taxi(2, ApplicationLibrary.randomLocation());
         Taxi taxi3 = new Taxi(3, ApplicationLibrary.randomLocation());
-        Taxi taxi4 = new Taxi(4, ApplicationLibrary.randomLocation());
-        Taxi taxi5 = new Taxi(5, ApplicationLibrary.randomLocation());
         Bike bike1 = new Bike(1, ApplicationLibrary.randomLocation());
         Bike bike2 = new Bike(2, ApplicationLibrary.randomLocation());
         Scooter scooter1 = new Scooter(1, ApplicationLibrary.randomLocation());
@@ -161,10 +146,6 @@ public class TestProgram {
         vehicles.add(scooter2);
         vehicles.add(taxi3);
         vehicles.add(shuttle3);
-        vehicles.add(taxi4);
-        vehicles.add(shuttle4);
-        vehicles.add(taxi5);
-        vehicles.add(shuttle5);
 
         return vehicles;
     }

@@ -187,22 +187,13 @@ public abstract class MicroMobility implements IVehicle {
         return this.status == MobilityStatus.FREE;
     }
 
+    /**
+     * This method moves the scooter or bike to the next location
+     */
     @Override
     public void move() {
         if(this.service != null) {
-            // get the next location from the driving route only if there's
-
-            // Only update vehicle's location when ride is in service (vehicle doesn't move when
-            // booked)
-            if (this.status == MobilityStatus.SERVICE)
-                this.location = this.route.get(0);
-
-            // Always update user's location (either when walking to pickup location or when ride
-            // is in service)
-            this.service.getUser().updateUserLocation(this.route.get(0));
-
-
-            this.route.remove(0);
+            // get the next location from the driving route only if there's a service in progress
 
             if (this.route.isEmpty()) {
                     // checks if the user has arrived at pickup or drop off location
@@ -223,6 +214,13 @@ public abstract class MicroMobility implements IVehicle {
                         notifyArrivalAtDropoffLocation();
 
                     }
+            } else {
+                // Only update vehicle's location when ride is in service (vehicle doesn't move when booked)
+                if (this.status == MobilityStatus.SERVICE) { this.location = this.route.get(0);}
+                // Always update user's location (either when walking to pickup location or when ride is in service)
+                this.service.getUser().updateUserLocation(this.route.get(0));
+
+                this.route.remove(0);
             }
         }
     }
@@ -231,7 +229,8 @@ public abstract class MicroMobility implements IVehicle {
      * This method calculates the cost of a service based on the distance between the pickup
      * and drop-off locations. We will multiply the cost by 0.75 and 0.5 for scooters and
      * bikes, respectively, in the subclasses
-     * @return the cost of the service
+
+    * @return the cost of the service
      */
     @Override
     public double calculateCost() { return this.service.calculateDistance(); }
