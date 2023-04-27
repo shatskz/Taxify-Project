@@ -1,10 +1,12 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/8/23
-// Description: This file provides the interface for the Statistics class
-
 package taxifyV4;
 
+/**
+ * Interface for Statistics
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public interface IStatistics {
 
     public int getServices();

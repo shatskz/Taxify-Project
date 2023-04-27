@@ -1,10 +1,12 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This file provides the interface for the TaxiCompany.java class
-
 package taxifyV4;
 
+/**
+ * Interface for TaxiCompany
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public interface ITaxiCompany {
 
     public String getName();
@@ -12,7 +14,4 @@ public interface ITaxiCompany {
     public boolean requestService(int user);
     public void arrivedAtPickupLocation(IVehicle vehicle);
     public void arrivedAtDropoffLocation(IVehicle vehicle);
-
-    // more methods will be declared in upcoming sprints
-
 }

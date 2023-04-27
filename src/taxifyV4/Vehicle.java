@@ -1,15 +1,15 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This file defines some of the methods and attributes for the Vehicle class. It
-// is an abstract class because the Taxi and Shuttle classes inherit from Vehicle and
-// implement the remaining methods
-
 package taxifyV4;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implements IVehicle to provide the superclass for Taxi and Shuttle
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public abstract class Vehicle implements IVehicle {
 
     private int id;
@@ -24,7 +24,8 @@ public abstract class Vehicle implements IVehicle {
     private int CAR_CAPACITY = 4; // Maximum number of services in each vehicle
 
     /**
-     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
+     * Class constructor
+     *
      * @param id the id of the vehicle
      * @param location the location of the vehicle
      */

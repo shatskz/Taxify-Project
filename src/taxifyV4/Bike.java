@@ -1,6 +1,14 @@
 package taxifyV4;
 
+/**
+ * Extends MicroMobility to calculate the cost and print the proper output for a bike
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class Bike extends MicroMobility {
+
     /**
      * Class constructor for a Bike object
      * @param id the id of the vehicle

@@ -1,13 +1,15 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/8/23
-// Description: This class provides functions to generate random locations and calculate
-// distances between locations
-
 package taxifyV4;
 
 import java.util.Random;
 
+/**
+ * Provides functions to generate random locations and calculate
+ * distances between locations
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class ApplicationLibrary {
     private static final int width = 10;
     private static final int height = 10;

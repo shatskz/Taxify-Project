@@ -3,6 +3,14 @@ package taxifyV4;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the taxi company by keeping track of all the users and vehicles and the requests
+ * of services
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class TaxiCompany implements ITaxiCompany, ISubject {
     private String name;
     private List<IUser> users;

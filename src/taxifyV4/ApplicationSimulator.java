@@ -2,6 +2,13 @@ package taxifyV4;
 
 import java.util.List;
 
+/**
+ * Provides functions used in the test program to run the simulation
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class ApplicationSimulator implements IApplicationSimulator, IObserver {
     private ITaxiCompany company;
     private List<IUser> users;

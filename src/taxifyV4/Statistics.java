@@ -1,11 +1,13 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This class keeps track of the statistics for each vehicle (eg, the number of
-// services provided, reviews received, rating, distance traveled, and billing generated)
-
 package taxifyV4;
 
+/**
+ * Keeps track of the statistics for each vehicle (eg, the number of
+ * services provided, reviews received, rating, distance traveled, and billing generated)
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class Statistics implements IStatistics {
     private int services;
     private int reviews;

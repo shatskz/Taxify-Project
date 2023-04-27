@@ -1,11 +1,12 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This file defines the methods for the Shuttle class. It extends Vehicle because
-// it alters the behavior of some of its methods
-
 package taxifyV4;
 
+/**
+ * Extends Vehicle to calculate the cost and print the proper output for a shuttle
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class Shuttle extends Vehicle {
 
     /**

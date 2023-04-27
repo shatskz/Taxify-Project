@@ -1,10 +1,12 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This file provides the interface for the User class
-
 package taxifyV4;
 
+/**
+ * Interface for User
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public interface IUser {
 
     /**

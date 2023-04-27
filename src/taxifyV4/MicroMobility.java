@@ -3,6 +3,13 @@ package taxifyV4;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implements IVehicle to provide the superclass for Bike and Scooter
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public abstract class MicroMobility implements IVehicle {
 
     private int id;
@@ -15,7 +22,8 @@ public abstract class MicroMobility implements IVehicle {
     private List<ILocation> route;
 
     /**
-     * This method calculates the cost of a service based on the distance between the pickup and drop-off locations
+     * Class constructor
+     *
      * @param id the id of the vehicle
      * @param location the location of the vehicle
      */
@@ -31,6 +39,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method returns the id of the vehicle
+     *
      * @return the id of the vehicle
      */
     @Override
@@ -40,6 +49,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method returns the location of the vehicle
+     *
      * @return the location of the vehicle
      */
     @Override
@@ -49,6 +59,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method returns the destination of the vehicle
+     *
      * @return the destination of the vehicle
      */
     @Override
@@ -58,6 +69,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method returns the service that the vehicle is currently servicing
+     *
      * @return service that the vehicle is currently servicing with the data on the ride
      */
     @Override
@@ -67,6 +79,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method returns the statistics of the vehicle
+     *
      * @return the statistics of the vehicle
      */
     @Override
@@ -76,6 +89,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method sets the company that owns the vehicle
+     *
      * @param company the company that owns the vehicle
      */
     @Override
@@ -87,6 +101,7 @@ public abstract class MicroMobility implements IVehicle {
     /**
      * This method returns the services of the vehicle, but should not be used for
      * micromobility vehicles
+     *
      * @return the services of the vehicle (always null for micromobility vehicles)
      */
     @Override
@@ -97,6 +112,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method picks a service, has the user walk to the vehicle, and sets status to "booked"
+     *
      * @param service the service that the user is booking
      * @return boolean to represent if service is accepted (always true for micromobility)
      */
@@ -229,14 +245,15 @@ public abstract class MicroMobility implements IVehicle {
      * This method calculates the cost of a service based on the distance between the pickup
      * and drop-off locations. We will multiply the cost by 0.75 and 0.5 for scooters and
      * bikes, respectively, in the subclasses
-
-    * @return the cost of the service
+`    *
+     * @return the cost of the service
      */
     @Override
     public double calculateCost() { return this.service.calculateDistance(); }
 
     /**
      * This method returns the driving route of the vehicle
+     *
      * @return the driving route of the vehicle
      */
     @Override
@@ -251,6 +268,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method returns the string representation of the vehicle
+     *
      * @return the string representation of the vehicle
      */
     @Override
@@ -274,6 +292,7 @@ public abstract class MicroMobility implements IVehicle {
 
     /**
      * This method sets the driving to the destination from the location parameter
+     *
      * @param location initial location where vehicle is driving from
      * @param destination location where vehicle is driving to
      * @return list of ILocations to represent driving route

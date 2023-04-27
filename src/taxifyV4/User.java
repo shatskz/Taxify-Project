@@ -1,12 +1,14 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This class represents an individual user using the Taxify application and
-// keeps track of his or her first and last name, id, and whether the user is currently being
-// serviced
-
 package taxifyV4;
 
+/**
+ * Represents an individual user using the Taxify application and
+ * keeps track of his or her first and last name, id, and whether the user is currently being
+ * serviced
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class User implements IUser {
     private int id;
     private String firstName;
@@ -31,7 +33,12 @@ public class User implements IUser {
         this.company = null;
         this.location = location;
     }
-    
+
+    /**
+     * This method returns the id attribute.
+     *
+     * @return      int representing the user's id
+     */
     @Override
     public int getId() {
         return this.id;
@@ -50,6 +57,7 @@ public class User implements IUser {
 
     /**
      * This method returns the lastName attribute.
+     *
      * @return     String representing the user's last name
      */
     @Override
@@ -68,7 +76,9 @@ public class User implements IUser {
     }
 
     /**
-     *  This method sets the service attribute.
+     * This method sets the service attribute.
+     *
+     * @param service - boolean representing whether the user is currently being served
      */
     @Override
     public void setService(boolean service) {
@@ -77,6 +87,7 @@ public class User implements IUser {
 
     /**
      * This method sets the company attribute
+     *
      * @param company - ITaxiCompany object to set the attribute to
      */
     @Override
@@ -129,7 +140,7 @@ public class User implements IUser {
 
     /**
      * This method returns a string representation of the User object.
-     * @return - String representation of the User object (first and last name)
+     * @return       String representation of the User object (first and last name)
      */
     @Override
     public String toString() {

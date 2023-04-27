@@ -1,11 +1,13 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/8/23
-// Description: This class represents the location of a pickup or drop off spot by
-// holding its x and y coordinates
-
 package taxifyV4;
 
+/**
+ * Represents the location of a pickup or drop off spot by
+ * holding its x and y coordinates
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class Location implements ILocation {
     private int x;
     private int y;

@@ -1,10 +1,13 @@
-// Zack Shatsky and Benjy Kurcz
-// Taxify Project
-// Last Modified: 2/23/23
-// Description: This class keeps track of the data for each service (eg, the user, pickup and
-// drop off locations, and the stars given)
 package taxifyV4;
 
+/**
+ * Keeps track of the data for each service (eg, the user, pickup and
+ * drop off locations, and the stars given)
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class Service implements IService {
     private IUser user;
     private ILocation pickup;

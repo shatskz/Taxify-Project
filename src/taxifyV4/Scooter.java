@@ -1,5 +1,12 @@
 package taxifyV4;
 
+/**
+ * Extends MicroMobility to calculate the cost and print the proper output for a scooter
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class Scooter extends MicroMobility {
     /**
      * Class constructor for a Scooter object

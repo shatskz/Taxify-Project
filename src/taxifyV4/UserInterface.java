@@ -3,6 +3,13 @@ package taxifyV4;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * Provides the infrastructure for the user interface
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class UserInterface extends JFrame implements IObserver {
 
     private ITaxiCompany company;

@@ -1,9 +1,13 @@
 package taxifyV4;
 
-/*
- * The interface IObserver declares the update method to post the notifications received from the subject
+/**
+ * Interface for Observer declares the update method to post the notifications received from
+ * the subject
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
  */
-
 public interface IObserver {
 
     /**

@@ -1,5 +1,12 @@
 package taxifyV4;
 
+/**
+ * Interface for ApplicationSimulator
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public interface IApplicationSimulator {
 
     /**

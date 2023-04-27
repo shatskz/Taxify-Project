@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * Test program for the application
+ *
+ * @author Zack Shatsky
+ * @author Benjy Kurcz
+ * @version 4
+ */
 public class TestProgram {
 
     public static void main(String[] args) {
@@ -55,7 +62,7 @@ public class TestProgram {
             application.update(); // Update the state of the application
             // pause for 2 seconds
             try {
-                Thread.sleep(4000);
+                Thread.sleep(0000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
