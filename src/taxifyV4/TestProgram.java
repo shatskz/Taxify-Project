@@ -2,6 +2,7 @@ package taxifyV4;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 public class TestProgram {
 
@@ -9,7 +10,93 @@ public class TestProgram {
 
         // 1. Declare a list of users. Instantiate at least 15 users
 
-        List<IUser> users = new ArrayList<IUser>();
+        List<IUser> users = InitializeUsers();
+
+        //  2. Declare a list of vehicles. Instantiate at least 10 vehicles (Taxis, Shuttles,
+        //  Bikes, and Scooters) and place them at random locations of the city map
+
+        List<IVehicle> vehicles = InitializeVehicles();
+
+        // 3. Instantiate the taxi company and the application simulator. Add the application
+        // simulator and user interface as observers of the taxi company
+
+        TaxiCompany taxify = new TaxiCompany("Taxify", users, vehicles);
+        ApplicationSimulator application = new ApplicationSimulator(taxify, users, vehicles);
+
+        // Create a default list model for the vehicle list
+        DefaultListModel<String> vehicleListModel = new DefaultListModel<>();
+        for (IVehicle vehicle : vehicles) {
+            vehicleListModel.addElement(vehicle.toString());
+        }
+
+        // Create the User Interface
+        UserInterface gui = new UserInterface(taxify, users, vehicles, vehicleListModel);
+
+        // Show the Taxify GUI
+       SwingUtilities.invokeLater(() -> gui.setVisible(true));
+
+        taxify.addObserver(application);
+        taxify.addObserver(gui);
+
+        /*
+            4. Start the simulation
+
+            a. Show the status of the application
+            b. Simulate at least 5 requests of service
+            c. Run the simulation while there are vehicles in a service
+         */
+
+        application.show(); // Show the status of the application
+        application.update(); // Update the state of the application
+        application.requestService(); // Simulate a request of service (randomly, to avoid request a service each iteration)
+        for(int i = 0; i < 50; i++) {
+            application.show();
+            int random = ApplicationLibrary.rand(3);
+            if(random == 1){ // requests a service 1 in 3 iterations
+                application.requestService();
+            }
+            application.update(); // Update the state of the application
+            // pause for 2 seconds
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            gui.updateVehicles(vehicles); // Update the state of the GUI
+            // pause the simulation for 5 seconds so that the user can look at the new state
+            /*
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            */
+        }
+
+        /*
+            d. Finally, show the statistics of the simulation as shown below
+
+            Taxify statistics
+
+            Shuttle  1  8 services  57 km.  83 eur.  4 reviews 2.25 stars
+            Taxi     2  6 services  59 km. 118 eur.  3 reviews 3.33 stars
+            Shuttle  3  4 services  24 km.  35 eur.  1 reviews 3.0  stars
+            Taxi     4  3 services  18 km.  36 eur.  1 reviews 4.0  stars
+            Taxi     5  1 services   6 km.  12 eur.  0 reviews 0.0  stars
+            Shuttle  6  1 services   7 km.  10 eur.  1 reviews 4.0  stars
+            Taxi     7  1 services   3 km.   6 eur.  0 reviews 0.0  stars
+            Shuttle  8  5 services  48 km.  71 eur.  3 reviews 3.33 stars
+            Shuttle  9  5 services  35 km.  51 eur.  2 reviews 2.5  stars
+            Shuttle 10  8 services  60 km.  87 eur.  4 reviews 3.5  stars
+
+         */
+
+        application.showStatistics();
+        
+    }
+
+    public static List<IUser> InitializeUsers(){
+        ArrayList<IUser> users = new ArrayList<IUser>();
         User user1 = new User(0, "John", "Doe", ApplicationLibrary.randomLocation());
         User user2 = new User(1, "Jane", "Doe", ApplicationLibrary.randomLocation());
         User user3 = new User(2, "John", "Smith", ApplicationLibrary.randomLocation());
@@ -42,10 +129,13 @@ public class TestProgram {
         users.add(user14);
         users.add(user15);
 
-        //  2. Declare a list of vehicles. Instantiate at least 10 vehicles (Taxis, Shuttles,
-        //  Bikes, and Scooters) and place them at random locations of the city map
+        return users;
+    }
 
-        List<IVehicle> vehicles = new ArrayList<IVehicle>();
+    public static List<IVehicle> InitializeVehicles(){
+
+        ArrayList<IVehicle> vehicles = new ArrayList<IVehicle>();
+
         Shuttle shuttle1 = new Shuttle(1, ApplicationLibrary.randomLocation());
         Shuttle shuttle2 = new Shuttle(2, ApplicationLibrary.randomLocation());
         Shuttle shuttle3 = new Shuttle(3, ApplicationLibrary.randomLocation());
@@ -76,58 +166,6 @@ public class TestProgram {
         vehicles.add(taxi5);
         vehicles.add(shuttle5);
 
-
-        // 3. Instantiate the taxi company and the application simulator. Add the application
-        // simulator as an observer of the taxi company
-
-        TaxiCompany taxify = new TaxiCompany("Taxify", users, vehicles);
-        ApplicationSimulator application = new ApplicationSimulator(taxify, users, vehicles);
-
-        taxify.addObserver(application);
-
-        /*
-            4. Start the simulation
-
-            a. Show the status of the application
-            b. Simulate at least 5 requests of service
-            c. Run the simulation while there are vehicles in a service
-         */
-
-        application.show(); // Show the status of the application
-        application.update(); // Update the state of the application
-        application.requestService(); // Simulate a request of service (randomly, to avoid request a service each iteration)
-        for(int i = 0; i < 100; i++) {
-            if(i%5 == 0){ // only show the status of the application each 5 iterations so the output isn't too long
-                application.show();
-            }
-            application.show();
-            int random = ApplicationLibrary.rand(5);
-            if(random == 1){ // requests a service 1 in 5 iterations
-                application.requestService();
-            }
-            application.update(); // Update the state of the application
-        }
-
-        /*
-            d. Finally, show the statistics of the simulation as shown below
-
-            Taxify statistics
-
-            Shuttle  1  8 services  57 km.  83 eur.  4 reviews 2.25 stars
-            Taxi     2  6 services  59 km. 118 eur.  3 reviews 3.33 stars
-            Shuttle  3  4 services  24 km.  35 eur.  1 reviews 3.0  stars
-            Taxi     4  3 services  18 km.  36 eur.  1 reviews 4.0  stars
-            Taxi     5  1 services   6 km.  12 eur.  0 reviews 0.0  stars
-            Shuttle  6  1 services   7 km.  10 eur.  1 reviews 4.0  stars
-            Taxi     7  1 services   3 km.   6 eur.  0 reviews 0.0  stars
-            Shuttle  8  5 services  48 km.  71 eur.  3 reviews 3.33 stars
-            Shuttle  9  5 services  35 km.  51 eur.  2 reviews 2.5  stars
-            Shuttle 10  8 services  60 km.  87 eur.  4 reviews 3.5  stars
-
-         */
-
-        application.showStatistics();
-
+        return vehicles;
     }
-
 }

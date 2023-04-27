@@ -1,5 +1,6 @@
 package taxifyV4;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaxiCompany implements ITaxiCompany, ISubject {
@@ -7,7 +8,7 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
     private List<IUser> users;
     private List<IVehicle> vehicles;
     private int totalServices;
-    private IObserver observer;
+    private List<IObserver> observers;
 
     /**
      * The constructor of the class TaxiCompany
@@ -20,6 +21,7 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
         this.users = users;
         this.vehicles = vehicles;
         this.totalServices = 0;
+        this.observers = new ArrayList<IObserver>();
 
         // set the taxi company for users and vehicles
 
@@ -168,16 +170,18 @@ public class TaxiCompany implements ITaxiCompany, ISubject {
      */
     @Override
     public void addObserver(IObserver observer) {
-        this.observer = observer;
+        this.observers.add(observer);
     }
 
     /**
-     * The method removeObserver removes an observer from the list of observers
+     * The method notifyObserver updates the observer with a message
      * @param message the message to be sent to the observer
      */
     @Override
     public void notifyObserver(String message) {
-        this.observer.updateObserver(message);
+        for(IObserver observer : this.observers) {
+            observer.updateObserver(message);
+        }
     }
 
     /**
