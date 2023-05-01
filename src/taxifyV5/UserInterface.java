@@ -3,7 +3,6 @@ package taxifyV5;
 import javax.swing.*;
 import java.util.List;
 import java.awt.*;
-import java.io.File;
 
 /**
  * Provides the infrastructure for the user interface
@@ -34,7 +33,13 @@ public class UserInterface extends JFrame implements IObserver {
     private ImageIcon redScooter = new ImageIcon("./Taxify-Project/src/taxifyV5/redScooter.png");
     private ImageIcon street = new ImageIcon("./Taxify-Project/src/taxifyV5/street.png");
 
-
+    /**
+     * The constructor of the class UserInterface
+     * @param taxiCompany the taxi company
+     * @param users the list of users
+     * @param vehicles the list of vehicles
+     * @param vehicleListModel the list of vehicles and their corresponding status
+     */
     public UserInterface(ITaxiCompany taxiCompany, List<IUser> users, List<IVehicle> vehicles, DefaultListModel<String> vehicleListModel) {
         this.company = taxiCompany;
         this.users = users;
@@ -96,6 +101,7 @@ public class UserInterface extends JFrame implements IObserver {
 
      /**
      * Updates observer by printing the message to the User Interface
+     * @param message - the message to be printed
      */
     @Override
     public void updateObserver(String message) {
@@ -105,12 +111,19 @@ public class UserInterface extends JFrame implements IObserver {
                 });
     }
 
+    /**
+     * Resets the vehicle model list
+     */
     public void reset(){
         SwingUtilities.invokeLater(() -> {
             vehicleListModel.clear();
         });
     }
 
+    /**
+     * Updates the list of vehicles
+     * @param vehicles - the list of vehicles
+     */
     public void updateVehicles(List<IVehicle> vehicles) {
         this.vehicles = vehicles;
         SwingUtilities.invokeLater(() -> {
@@ -122,6 +135,9 @@ public class UserInterface extends JFrame implements IObserver {
         });
     }
 
+    /**
+     * Updates the GUI by moving the vehicles on the grid and updating the colors depending on their status
+     */
     public void updateGUI() {
         for(int y = 9; y >= 0; y--){
             for(int x = 0; x < 10; x++){
@@ -175,6 +191,9 @@ public class UserInterface extends JFrame implements IObserver {
         repaint();
     }
     
+    /*
+     * Shows the statistics of the company in the GUI
+     */
     public void showStats(){
         this.reset();
         updateObserver("\n" + this.company.getName() + " statistics \n");
