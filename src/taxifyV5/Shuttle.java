@@ -35,4 +35,5 @@ public class Shuttle extends Vehicle {
     public String toString() {
         return "Shuttle " + super.toString();
     }
+
 }

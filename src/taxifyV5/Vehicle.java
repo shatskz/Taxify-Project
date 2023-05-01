@@ -103,6 +103,13 @@ public abstract class Vehicle implements IVehicle {
     }
 
     /**
+     * This method is not implemented for the Vehicle class
+     */
+    public MobilityStatus getMobilityStatus(){
+        return null;
+    }
+
+    /**
      * This method sets the company that owns the vehicle
      * @param company the company that owns the vehicle
      */
